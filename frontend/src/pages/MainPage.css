@@ -1,0 +1,115 @@
+/* General body styling to remove default margin */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+   background: 
+    linear-gradient(rgba(0, 0, 0, 0.1), rgba(0,0,0,0.2)),
+    url("src/assets/background.jpg") no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  /* A soft background color */
+}
+
+/* Main container for the landing page */
+/* Main container for the landing page */
+.landing-container {
+  display: flex;
+  justify-content: center; /* Horizontally centers the main content block */
+  align-items: center;     /* Vertically centers the main content block */
+  min-height: 100vh;
+  text-align: center;      /* Centers all the text within the container */
+}
+
+
+
+
+/* Header for the top-left logo */
+.landing-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.logo-small {
+  width: 50px; /* Adjust size as needed */
+  height: auto;
+}
+
+/* Main content area */
+.landing-main {
+  display: flex;
+  flex-direction: column;  /* Stacks the items vertically */
+  align-items: center;     /* Aligns all items (logo, h1, p, buttons) to the center */
+}
+
+.logo-main {
+  width: 150px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin: 0.5rem 0;
+}
+
+p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+/* Container for the two role buttons */
+.options-container {
+  display: flex;
+  gap: 20px; /* Space between the buttons */
+}
+
+.option-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.option-button .icon {
+  margin-right: 10px;
+}
+
+/* Specific styles for Patient button */
+.patient {
+  background-color: #3498db;
+  color: white;
+}
+
+.patient:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Specific styles for Doctor button */
+.doctor {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.doctor:hover {
+  background-color: #27ae60;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
