@@ -20,6 +20,48 @@ router.post("/register", async (req, res) => {
 });
 
 
+
+
+router.post("/add-doctor", async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      contact,
+      specialization,
+      therapy,
+      therapyDuration,
+      workingDays,
+      prePrecaution,
+      postPrecaution,
+      password
+    } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const doctor = new User({
+      name,
+      email,
+      contact,
+      specialization,
+      therapy,
+      therapyDuration,
+      workingDays: workingDays.split(",").map((d) => d.trim()), // "Mon, Tue" -> ["Mon","Tue"]
+      prePrecaution,
+      postPrecaution,
+      password: hashedPassword,
+      role: "doctor"
+    });
+
+    await doctor.save();
+    res.json({ success: true, message: "Doctor added successfully", doctor });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password, role, adminKey } = req.body;
