@@ -7,7 +7,7 @@ function Dashboard() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (!storedUser) navigate("/"); // redirect to main page if no user
+    if (!storedUser) navigate("/"); 
     else setUser(JSON.parse(storedUser));
   }, [navigate]);
 

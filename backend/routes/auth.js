@@ -6,7 +6,7 @@ const User = require("../models/User");
 dotenv.config();
 const router = express.Router();
 
-// Patient Registration
+
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -19,12 +19,12 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password, role, adminKey } = req.body;
 
-    // Admin login → verify key
+    
     if (role === "admin") {
       if (adminKey !== process.env.ADMIN_SECRET_KEY)
         return res.status(401).json({ success: false, message: "Invalid admin key" });
@@ -33,14 +33,14 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email, role });
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
-    // Password check only for patient/doctor
+    
     if (role !== "admin") {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch)
         return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 
-    // Send user info (non-sensitive) for localStorage
+    
     res.json({
       success: true,
       message: `${role} logged in successfully`,
