@@ -6,44 +6,19 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ["patient", "doctor", "admin"], default: "patient" },
 
-  // doctor-specific fields
   specialization: {
     type: String,
-    required: function () {
-      return this.role === "doctor";
-    }
-  },
-  therapy: {
-    type: String,
-    required: function () {
-      return this.role === "doctor";
-    }
-  },
-  therapyDuration: {
-    type: String,
-    required: function () {
-      return this.role === "doctor";
-    }
+    required: function () { return this.role === "doctor"; }
   },
   workingDays: {
     type: [String],
-    required: function () {
-      return this.role === "doctor";
-    }
+    required: function () { return this.role === "doctor"; }
   },
-  prePrecaution: {
+  contact: {
     type: String,
-    required: function () {
-      return this.role === "doctor";
-    }
+    required: function () { return this.role === "doctor"; }
   },
-  postPrecaution: {
-    type: String,
-    required: function () {
-      return this.role === "doctor";
-    }
-  }
+  therapies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Therapy" }] // doctor ke liye available therapies
 });
 
-// ✅ Yaha export karo model
 module.exports = mongoose.model("User", userSchema);
