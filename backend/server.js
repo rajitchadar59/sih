@@ -18,6 +18,8 @@ mongoose.connect(process.env.MONGO_URI)
 // Routes
 const authRoutes = require("./routes/auth");
 const therapyRoutes = require("./routes/therapy");
+const appointmentRoutes = require("./routes/appointment");
+app.use("/appointment", appointmentRoutes);
 
 app.use("/auth", authRoutes);
 app.use("/therapy", therapyRoutes);

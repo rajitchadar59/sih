@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: function () { return this.role === "doctor"; }
   },
-  therapies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Therapy" }] // doctor ke liye available therapies
+  therapies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Therapy" }], // doctor ke liye available therapies
+
+  // Patient ke liye appointments ka array
+  appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Appointment" }]
 });
 
 module.exports = mongoose.model("User", userSchema);

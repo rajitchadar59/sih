@@ -48,22 +48,33 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password, role } = req.body;
     const user = await User.findOne({ email, role });
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user)
+      return res.status(404).json({ success: false, message: "User not found" });
 
     if (role !== "admin") {
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(401).json({ success: false, message: "Invalid credentials" });
+      if (!isMatch)
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid credentials" });
     }
 
+    // ✅ Include _id so frontend can use it
     res.json({
       success: true,
       message: `${role} logged in successfully`,
-      user: { name: user.name, email: user.email, role: user.role },
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
 
 // Get doctors for a specific therapy
 router.get("/doctors-by-therapy/:therapyId", async (req, res) => {
