@@ -1,0 +1,210 @@
+/* src/components/LoginPage.css */
+@import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+body {
+    background:
+        radial-gradient(transparent, rgba(0, 0, 0, 0.8)),
+        url("../assets/ayur1.jpg") no-repeat center/cover;
+    font-family: "Zain", sans-serif;
+    /* Added for consistent background behavior */
+    background-attachment: fixed; 
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.auth-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 1);
+    overflow: hidden;
+}
+
+.info-block {
+    flex-basis: 40%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #f0f0f0;
+    background-image: url("../assets/ayur1.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.info-block h2 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.info-block p {
+    font-size: 1.3rem;
+    line-height: 1.2; /* Adjusted for better readability */
+    color: #dcdcdc;
+}
+
+.login-box {
+    flex-basis: 60%;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    background-color: white;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #3f4143; /* Lighter gray */
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.back-button:hover {
+    color: #2d3748; /* Darker gray */
+}
+
+.login-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 3rem;
+    color: #2c3e50;
+}
+
+.login-box p {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    color: #5b5e5e;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #27ae60;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #229954;
+}
+
+.register-link {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #5b5e5e;
+}
+
+.register-link a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.form-row .input-group {
+    flex: 1;
+}
+
+/* --- ✨ NEW RESPONSIVE STYLES ✨ --- */
+@media (max-width: 768px) {
+    body {
+        /* Use a simple background color for mobile to improve form visibility */
+        background: #eef2f7; 
+    }
+
+    .login-container {
+        padding: 0;
+        min-height: auto; /* Allow content to define height */
+    }
+
+    .auth-wrapper {
+        flex-direction: column; /* Stack the blocks vertically */
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+    }
+
+    .info-block {
+        display: none; /* Hide the decorative info block on mobile */
+    }
+
+    .login-box {
+        flex-basis: 100%; /* Make the form take up the full width */
+        padding: 30px 20px; /* Adjust padding for smaller screens */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1; /* Ensure it fills the screen height */
+    }
+
+    .login-box h2 {
+        font-size: 2.2rem; /* Reduce font size for mobile */
+    }
+
+    .login-box p {
+        font-size: 1rem; /* Reduce font size for mobile */
+        margin-bottom: 25px;
+    }
+
+    /* Stack DOB and Contact No. fields vertically */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

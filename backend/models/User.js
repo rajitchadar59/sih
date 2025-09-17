@@ -5,6 +5,9 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   role: { type: String, enum: ["patient", "doctor", "admin"], default: "patient" },
+  dob: { type: Date },          
+   contactNo: { type: String }, 
+
 
   specialization: {
     type: String,
@@ -22,6 +25,7 @@ const userSchema = new mongoose.Schema({
 
   // Patient ke liye appointments ka array
   appointments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Appointment" }]
+  
 });
 
 module.exports = mongoose.model("User", userSchema);

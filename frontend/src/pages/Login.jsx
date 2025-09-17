@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import "./Login.css"; // same CSS as LoginPage
 
 function Login() {
   const { roleParam } = useParams();
@@ -16,13 +17,17 @@ function Login() {
     if (roleParam) setForm((prev) => ({ ...prev, role: roleParam }));
   }, [roleParam]);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/auth/login", form);
+      const res = await axios.post("http://localhost:5000/auth/login", {
+        ...form,
+        role: form.role.toLowerCase(), // ensure lowercase for backend match
+      });
 
       if (res.data.success && res.data.user) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -35,36 +40,65 @@ function Login() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto mt-10 border rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">
-        {form.role.charAt(0).toUpperCase() + form.role.slice(1)} Login
-      </h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 mt-2"
-        >
-          Login
-        </button>
-      </form>
+    <div className="login-container">
+      <div className="auth-wrapper">
+        <div className="info-block">
+          <h2>Welcome Back!</h2>
+          <p>Your path to wellness continues here. Log in to manage your journey.</p>
+        </div>
+
+        <div className="login-box">
+          <button onClick={() => navigate('/')} className="back-button">← Go Back</button>
+          
+          <h2>
+     {form.role.toLowerCase() === "doctor" 
+    ? "Practitioner" 
+    : form.role.charAt(0).toUpperCase() + form.role.slice(1)
+   } Login
+  </h2>
+
+          
+          <p>Please enter your credentials to proceed.</p>
+
+          <form className="login-form" onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                onChange={handleChange}
+                value={form.email}
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                onChange={handleChange}
+                value={form.password}
+              />
+            </div>
+
+            <button type="submit" className="login-button">
+              Login
+            </button>
+          </form>
+
+          {form.role.toLowerCase() === "patient" && (
+            <p className="register-link">
+              Don't have an account? <a href="/register">Register here</a>
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

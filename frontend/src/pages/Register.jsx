@@ -1,59 +1,133 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Login.css"; 
 
 function Register() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const navigate = useNavigate();
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    dob: "",
+    contactNo: "",
+  });
+
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Backend me dob aur contactNo handle nahi hote, lekin frontend validation ke liye include
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    };
+
     try {
-      const res = await axios.post("http://localhost:5000/auth/register", form);
+      const res = await axios.post(
+        "http://localhost:5000/auth/register",
+        payload
+      );
       alert(res.data.message);
+      navigate("/login/patient"); // registration ke baad login page
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto mt-10 border rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Patient Registration</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={form.name}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-green-500 text-white py-2 rounded hover:bg-green-600 mt-2"
-        >
-          Register
-        </button>
-      </form>
+    <div className="login-container">
+      <div className="auth-wrapper">
+        <div className="info-block">
+          <h2>Let's Get Started</h2>
+          <p>Create your account to begin your wellness journey with us.</p>
+        </div>
+
+        <div className="login-box">
+          <button
+            onClick={() => navigate("/login/patient")}
+            className="back-button"
+          >
+            ← Back to Login
+          </button>
+
+          <h2>Patient Registration</h2>
+          <p>Create your account to get started.</p>
+
+          <form className="login-form" onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label htmlFor="name">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your Name"
+                required
+                onChange={handleChange}
+                value={formData.name}
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                onChange={handleChange}
+                value={formData.email}
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                onChange={handleChange}
+                value={formData.password}
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="input-group">
+                <label htmlFor="dob">Date of Birth</label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  onChange={handleChange}
+                  value={formData.dob}
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="contactNo">Contact No.</label>
+                <input
+                  type="tel"
+                  id="contactNo"
+                  name="contactNo"
+                  placeholder="9876543210"
+                  onChange={handleChange}
+                  value={formData.contactNo}
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="login-button">
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,18 +1,18 @@
-// routes/notification.js
+
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
-// configure your email transport
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "youremail@gmail.com",
-    pass: "yourapppassword", // use App Password
+    pass: "yourapppassword", 
   },
 });
 
-// send email endpoint
+
 router.post("/send-email", async (req, res) => {
   const { to, subject, text } = req.body;
 

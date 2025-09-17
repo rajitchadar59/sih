@@ -1,138 +1,573 @@
-/* General body styling to remove default margin */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
+.landingpage {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: "Zain", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-x: hidden; 
 }
 
-.landing-container {
-  min-height: 100vh;
-  width: 100%;
 
-  background: 
-    linear-gradient(rgba(0, 0, 0, 0.1), rgba(0,0,0,0.2)),
-    url("../assets/background.jpg") no-repeat center/cover;
-
+/* Background image for top section */
+#home {
+  background: url('../assets/yourImage.jpg') no-repeat center center/cover;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  color: #fff;
+  text-align: center;
+}
+
+/* Overlay for better contrast */
+#home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4); /* dark overlay */
+  z-index: 1;
+}
+
+#home > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Header/Navbar */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 50px;
+  background: rgba(255, 255, 255, 0.08); /* transparent */
+  backdrop-filter: blur(12px); /* glass effect */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Logo */
+.logo-small {
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.logo-small:hover {
+  transform: scale(1.1);
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 20px;
+  color: rgb(190, 203, 216);
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Hover underline */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: #ffcc70;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #ffcc70;
+}
+
+/* Login Button */
+.log-button {
+  background: linear-gradient(135deg, #ff9966, #ff5e62);
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  color: #fff !important;
+  transition: all 0.3s ease;
+}
+
+.log-button:hover {
+  background: linear-gradient(135deg, #ff5e62, #ff9966);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 12px rgba(255, 94, 98, 0.4);
 }
 
 
 
-.landing-container {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-   background: 
-    linear-gradient(rgba(0, 0, 0, 0.1), rgba(0,0,0,0.2)),
-    url("src/assets/background.jpg") no-repeat center/cover;
+/* header {
+    background-color: green;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0px 5px 15px 0px rgb(0, 0, 0);
+}
+
+nav {
     display: flex;
     align-items: center;
-    justify-content: center;
-  /* A soft background color */
-}
-
-/* Main container for the landing page */
-/* Main container for the landing page */
-.landing-container {
-  display: flex;
-  justify-content: center; /* Horizontally centers the main content block */
-  align-items: center;     /* Vertically centers the main content block */
-  min-height: 100vh;
-  text-align: center;      /* Centers all the text within the container */
-}
-
-
-
-
-/* Header for the top-left logo */
-.landing-header {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+    justify-content: space-between;
 }
 
 .logo-small {
-  width: 50px; /* Adjust size as needed */
-  height: auto;
+    height: 50px;
+    padding: 5px 20px 5px 20px;
 }
 
-/* Main content area */
-.landing-main {
-  display: flex;
-  flex-direction: column;  /* Stacks the items vertically */
-  align-items: center;     /* Aligns all items (logo, h1, p, buttons) to the center */
+a {
+    text-decoration: none;
+} */
+
+
+
+
+
+@media (max-width: 768px) {
+    a {
+        font-size: medium;
+    }
 }
 
-.logo-main {
-  width: 150px; /* Adjust size as needed */
-  height: auto;
-  margin-bottom: 2rem;
+.links {
+    padding-right: 5vw;
+    font-size: x-large;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5vw;
+    color: #ffffff;
+  text-shadow:
+    0 0 6px rgba(255,255,255,0.8),
+    0 0 20px rgba(0,170,255,0.6);
 }
 
-h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin: 0.5rem 0;
+.log-button{
+    color: white;
+  text-shadow:
+    0 0 6px white,
+    0 0 25px white;
+}
+#home {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    background:
+        linear-gradient(transparent, white),
+        url("src/assets/hero-back.jpg") no-repeat center/cover;
 }
 
-p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 2.5rem;
+.hero-cont {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Container for the two role buttons */
+.hero-cont>h1 {
+    text-align: center;
+    padding-top: 15vh;
+    padding-bottom: 5vh;
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgb(30, 41, 59);
+    line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+    .hero-cont {
+        width: 70%;
+    }
+
+    .hero-cont>h1 {
+        padding-top: 30vh;
+        font-size: 3.75rem;
+    }
+}
+
+
+.hero-cont>p {
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+    font-size: 1.5rem;
+    color: rgb(71, 85, 105);
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 768px) {
+    .hero-cont>p {
+        font-size: 1.5rem;
+    }
+}
+
+.begin {
+    font-size: 2rem;
+    font-weight: 600;
+    color: green;
+    text-align: center;
+}
+
+.hero-cont>h1>span {
+    color: green;
+    font-weight: 700;
+}
+
 .options-container {
-  display: flex;
-  gap: 20px; /* Space between the buttons */
+    display: flex;
+    gap: 30px;
+    padding-top: 2vh;
+    padding-bottom: 7vh;
 }
 
 .option-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5vw 3vw;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 15px;
 }
 
 .option-button .icon {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
-/* Specific styles for Patient button */
 .patient {
-  background-color: #3498db;
-  color: white;
+    background-color: #964B00;
+    color: white;
 }
 
 .patient:hover {
-  background-color: #2980b9;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: #c46200;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Specific styles for Doctor button */
 .doctor {
-  background-color: #2ecc71;
-  color: white;
+    background-color: brown;
+    color: white;
 }
 
 .doctor:hover {
-  background-color: #27ae60;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background-color: rgb(203, 53, 53);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#features {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+}
+
+.feat-cont {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    text-align: center;
+    padding-top: 5vh;
+    padding-bottom: 1vh;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: green;
+    line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+    .feat-cont {
+        width: 80%;
+    }
+
+    .section-title {
+        padding-top: 10vh;
+        font-size: 3.75rem;
+    }
+}
+
+.section-subtitle {
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2.5rem;
+    font-size: 1.5rem;
+    color: rgb(71, 85, 105);
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 768px) {
+    .section-subtitle {
+        font-size: 1.5rem;
+    }
+}
+
+.block-features {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vw;
+    padding-bottom: 10vh;
+}
+@media (min-width: 768px) {
+    .block-features {
+        flex-direction: row;
+    }
+    .block{
+        width: 30%;
+    }
+}
+.block {
+    width: 90%;
+    text-align: center;
+    padding: 2rem;
+    background-color: rgb(248, 250, 252);
+    border-radius: 0.75rem;
+     box-shadow: 0px 1px 10px 0.1px rgba(0, 0, 0, 0.202);
+}
+
+.round {
+    display: inline-block;
+    padding: 1rem;
+    background-color: rgb(220, 252, 231);
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.block>h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.block>p {
+    color: rgb(100, 116, 139);
+}
+
+.icon-f{
+    width: 2.5rem;
+  height: 2rem;
+  color: rgb(22, 163, 74); 
+}
+
+#how-it-works{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(242, 247, 252);
+}
+
+.how-cont {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+@media (min-width: 768px) {
+    .how-cont {
+        width: 80%;
+    }
+}
+
+.steps {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+    padding-bottom: 10vh;
+}
+
+.step {
+    width: 90%;
+    text-align: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0px 1px 10px 0.1px rgba(0, 0, 0, 0.202);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: #16a34a;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+}
+
+.step-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.step-text {
+  font-size: 1.2rem;
+  color: #515f71;
+}
+
+.testimonials {
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5vw;
+  width: 100%;
+  margin: 48px auto 0;
+}
+
+@media (min-width: 768px) {
+  .testimonial-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.testimonial-card {
+  background-color: #f8fafc;
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.testimonial-text {
+  color: #475569;
+  font-style: italic;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+}
+
+.testimonial-name {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.testimonial-role {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.final-cta {
+  padding: 80px 0;
+  background: rgb(248, 250, 252);
+  text-align: center;
+  color: #1e293b;
+}
+
+.cta-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .cta-title {
+    font-size: 2.5rem;
+  }
+}
+
+.cta-subtitle {
+  font-size: 1.1rem;
+  max-width: 650px;
+  margin: 0 auto 32px;
+  color: #334155;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #964B00;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #c46200;
+}
+.footer {
+  background-color: #28303a;
+  color: #cbd5e1;
+  padding: 48px 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.footer-links {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.footer-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
 }
