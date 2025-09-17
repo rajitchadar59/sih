@@ -139,4 +139,30 @@ router.delete("/cancel/:appointmentId", async (req, res) => {
   }
 });
 
+
+
+
+
+// ----------------- CONFIRM APPOINTMENT -----------------
+router.put("/confirm/:appointmentId", async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
+    }
+
+    // Mark as completed
+    appointment.completed = true;
+    await appointment.save();
+
+    res.json({ success: true, message: "Appointment confirmed", appointment });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;

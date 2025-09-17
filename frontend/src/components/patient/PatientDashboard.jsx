@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import Notification from "./Notification.jsx";
 
 const PatientDashboard = () => {
   const navigate = useNavigate();
@@ -54,7 +53,6 @@ const PatientDashboard = () => {
       setExpandedTherapy(null);
     } else {
       setExpandedTherapy(idStr);
-      // Load doctors if not already
       if (!therapyDoctors[idStr]) {
         try {
           const res = await axios.get(
@@ -118,11 +116,6 @@ const PatientDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
-
   if (!user) return null;
 
   return (
@@ -138,7 +131,7 @@ const PatientDashboard = () => {
       ) : (
         therapies.map((therapy) => {
           const therapyIdStr = String(therapy._id);
-          const doctors = therapyDoctors[therapyIdStr] || []; // ✅ safe fallback
+          const doctors = therapyDoctors[therapyIdStr] || [];
           return (
             <div
               key={therapyIdStr}
@@ -171,10 +164,12 @@ const PatientDashboard = () => {
                     <strong>Cost:</strong> {therapy.cost}
                   </p>
                   <p>
-                    <strong>Pre Precaution:</strong> {therapy.prePrecaution || "N/A"}
+                    <strong>Pre Precaution:</strong>{" "}
+                    {therapy.prePrecaution || "N/A"}
                   </p>
                   <p>
-                    <strong>Post Precaution:</strong> {therapy.postPrecaution || "N/A"}
+                    <strong>Post Precaution:</strong>{" "}
+                    {therapy.postPrecaution || "N/A"}
                   </p>
 
                   <h4>Doctors for this therapy:</h4>
@@ -222,8 +217,12 @@ const PatientDashboard = () => {
 
                           {expandedDoctor[therapyIdStr] === docIdStr && (
                             <div style={{ marginTop: "8px" }}>
-                              <p><strong>Email:</strong> {doc.email}</p>
-                              <p><strong>Contact:</strong> {doc.contact}</p>
+                              <p>
+                                <strong>Email:</strong> {doc.email}
+                              </p>
+                              <p>
+                                <strong>Contact:</strong> {doc.contact}
+                              </p>
                               <p>
                                 <strong>Working Days:</strong>{" "}
                                 {doc.workingDays?.join(", ") || "N/A"}
@@ -306,80 +305,102 @@ const PatientDashboard = () => {
 
       {/* Upcoming Appointments */}
       <h2 style={{ marginTop: "40px" }}>Your Upcoming Appointments</h2>
-      {upcoming.length === 0 ? (
+      {upcoming.filter((a) => !a.completed).length === 0 ? (
         <p>No upcoming appointments.</p>
       ) : (
-        upcoming.map((a) => (
-          <div
-            key={a._id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              margin: "10px 0",
-            }}
-          >
-            <p><strong>Therapy:</strong> {a.therapy?.name || "N/A"}</p>
-            <p><strong>Doctor:</strong> {a.doctor?.name || "N/A"}</p>
-            <p>
-              <strong>Date:</strong>{" "}
-              {a.date
-                ? new Date(a.date).toLocaleDateString("en-IN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })
-                : "N/A"}
-            </p>
-            <p><strong>Slot:</strong> {a.slot || "N/A"}</p>
-            <p><strong>Completed:</strong> {a.completed ? "Yes" : "No"}</p>
-            <button
-              onClick={() => cancelAppointment(a._id)}
+        upcoming
+          .filter((a) => !a.completed)
+          .map((a) => (
+            <div
+              key={a._id}
               style={{
-                marginTop: "10px",
-                padding: "5px 15px",
-                backgroundColor: "#f44336",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
+                border: "1px solid #ccc",
+                padding: "10px",
+                margin: "10px 0",
               }}
             >
-              Cancel
-            </button>
-          </div>
-        ))
+              <p>
+                <strong>Therapy:</strong> {a.therapy?.name || "N/A"}
+              </p>
+              <p>
+                <strong>Doctor:</strong> {a.doctor?.name || "N/A"}
+              </p>
+              <p>
+                <strong>Date:</strong>{" "}
+                {a.date
+                  ? new Date(a.date).toLocaleDateString("en-IN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "N/A"}
+              </p>
+              <p>
+                <strong>Slot:</strong> {a.slot || "N/A"}
+              </p>
+              <p>
+                <strong>Completed:</strong> {a.completed ? "Yes" : "No"}
+              </p>
+              <button
+                onClick={() => cancelAppointment(a._id)}
+                style={{
+                  marginTop: "10px",
+                  padding: "5px 15px",
+                  backgroundColor: "#f44336",
+                  color: "#fff",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ))
       )}
 
-      <button
-        onClick={handleLogout}
-        style={{
-          marginTop: "30px",
-          padding: "10px 20px",
-          backgroundColor: "#2196f3",
-          color: "#fff",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </button>
-
-
-     {/* for notification  */}
-
-     {/* Notifications */}
-<h2 style={{ marginTop: "30px" }}>Notifications</h2>
-{upcoming.length === 0 ? (
-  <p>No notifications.</p>
-) : (
-  upcoming.map((appointment) => (
-    <Notification key={appointment._id} appointment={appointment} />
-  ))
-)}
-
+      {/* Confirmed Appointments */}
+      <h2 style={{ marginTop: "40px" }}>Confirmed Appointments</h2>
+      {upcoming.filter((a) => a.completed).length === 0 ? (
+        <p>No confirmed appointments yet.</p>
+      ) : (
+        upcoming
+          .filter((a) => a.completed)
+          .map((a) => (
+            <div
+              key={a._id}
+              style={{
+                border: "1px solid #4caf50",
+                padding: "10px",
+                margin: "10px 0",
+                borderRadius: "6px",
+                backgroundColor: "#e8f5e9",
+              }}
+            >
+              <p>
+                <strong>Therapy:</strong> {a.therapy?.name || "N/A"}
+              </p>
+              <p>
+                <strong>Doctor:</strong> {a.doctor?.name || "N/A"}
+              </p>
+              <p>
+                <strong>Date:</strong>{" "}
+                {a.date
+                  ? new Date(a.date).toLocaleDateString("en-IN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })
+                  : "N/A"}
+              </p>
+              <p>
+                <strong>Slot:</strong> {a.slot || "N/A"}
+              </p>
+              <p style={{ color: "green", fontWeight: "bold" }}>✅ Confirmed</p>
+            </div>
+          ))
+      )}
     </div>
   );
 };
-
-
 
 export default PatientDashboard;

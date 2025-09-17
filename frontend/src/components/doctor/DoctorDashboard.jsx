@@ -4,86 +4,121 @@ import axios from "axios";
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
-  const [doctor, setDoctor] = useState(null);
+  const [user, setUser] = useState(null);
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (!storedUser || storedUser.role !== "doctor") navigate("/login");
     else {
-      setDoctor(storedUser);
+      setUser(storedUser);
       fetchAppointments(storedUser._id);
     }
   }, [navigate]);
 
   const fetchAppointments = async (doctorId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/appointment/doctor/${doctorId}`);
-      if (res.data.success) setAppointments(res.data.appointments);
+      const res = await axios.get(
+        `http://localhost:5000/appointment/doctor/${doctorId}`
+      );
+      if (res.data.success) setAppointments(res.data.appointments || []);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
-
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case "completed": return "#4caf50";
-      case "cancelled": return "#f44336";
-      case "pending":
-      default: return "#ff9800";
+  const confirmAppointment = async (appointmentId) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/appointment/confirm/${appointmentId}`
+      );
+      if (res.data.success) {
+        alert("Appointment confirmed!");
+        setAppointments((prev) =>
+          prev.map((a) =>
+            a._id === appointmentId ? { ...a, completed: true } : a
+          )
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error confirming appointment");
     }
   };
 
-  if (!doctor) return null;
+  if (!user) return null;
 
   return (
-    <div style={{ minHeight: "100vh", padding: "20px", backgroundColor: "#f5f5f5" }}>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
-        <h1>Welcome, Dr. {doctor.name}</h1>
-        <button
-          onClick={handleLogout}
-          style={{ padding: "10px 20px", backgroundColor: "#f44336", color: "#000", border: "none", borderRadius: "5px", cursor: "pointer" }}
-        >Logout</button>
-      </header>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+      <h1>Welcome Dr. {user.name}</h1>
+      <p>Email: {user.email}</p>
 
-      <h2 style={{ marginBottom: "20px" }}>Your Appointments</h2>
+      <h2 style={{ marginTop: "30px" }}>Appointments</h2>
       {appointments.length === 0 ? (
         <p>No appointments yet.</p>
       ) : (
-        <div style={{ overflowX: "auto" ,color:"#000" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#fff", boxShadow: "0 2px 5px rgba(0,0,0,0.1)" }}>
-            <thead style={{ backgroundColor: "#1976d2", color: "#060505ff" }}>
-              <tr>
-                <th style={{ padding: "12px", border: "1px solid #000" }}>Patient</th>
-                <th style={{ padding: "12px", border: "1px solid #000" }}>Therapy</th>
-                <th style={{ padding: "12px", border: "1px solid #000" }}>Date</th>
-                <th style={{ padding: "12px", border: "1px solid #000" }}>Slot</th>
-                <th style={{ padding: "12px", border: "1px solid #000" }}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((a) => (
-                <tr key={a._id} style={{ textAlign: "center" }}>
-                  <td style={{ padding: "10px", border: "1px solid #000" }}>{a.patient?.name}</td>
-                  <td style={{ padding: "10px", border: "1px solid #000" }}>{a.therapy?.name}</td>
-                  <td style={{ padding: "10px", border: "1px solid #000" }}>
-                    {a.date ? new Date(a.date).toLocaleString("en-IN", { day: "2-digit", month: "2-digit", year: "numeric" }) : "N/A"}
-                  </td>
-                  <td style={{ padding: "10px", border: "1px solid #000" }}>{a.slot}</td>
-                  <td style={{ padding: "10px", border: "1px solid #000", color: "#fff", fontWeight: "bold", backgroundColor: getStatusColor(a.status || "pending"), borderRadius: "5px" }}>
-                    {a.status || "Pending"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        appointments.map((a) => (
+          <div
+            key={a._id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              margin: "10px 0",
+              borderRadius: "6px",
+            }}
+          >
+            <p>
+              <strong>Patient:</strong> {a.patient?.name} ({a.patient?.email})
+            </p>
+            <p>
+              <strong>Therapy:</strong> {a.therapy?.name}
+            </p>
+            <p>
+              <strong>Date:</strong>{" "}
+              {new Date(a.date).toLocaleDateString("en-IN")}
+            </p>
+            <p>
+              <strong>Slot:</strong> {a.slot}
+            </p>
+            <p>
+              <strong>Status:</strong>{" "}
+              {a.completed ? "✅ Confirmed" : "Pending"}
+            </p>
+
+            <button
+              onClick={() => confirmAppointment(a._id)}
+              style={{
+                marginTop: "10px",
+                padding: "6px 12px",
+                backgroundColor: a.completed ? "gray" : "#4caf50",
+                color: "#fff",
+                border: "none",
+                cursor: a.completed ? "not-allowed" : "pointer",
+              }}
+              disabled={a.completed}
+            >
+              {a.completed ? "Confirmed ✅" : "Confirm Appointment"}
+            </button>
+          </div>
+        ))
       )}
+
+      <button
+        onClick={() => {
+          localStorage.removeItem("user");
+          navigate("/login");
+        }}
+        style={{
+          marginTop: "20px",
+          padding: "10px 20px",
+          backgroundColor: "#2196f3",
+          color: "#fff",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 };
