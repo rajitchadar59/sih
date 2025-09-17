@@ -4,21 +4,18 @@ const Appointment = require("../models/Appointment");
 const User = require("../models/User");
 
 // ----------------- BOOK APPOINTMENT -----------------
+
+// ----------------- BOOK APPOINTMENT -----------------
 router.post("/book", async (req, res) => {
   try {
-    // UPDATED: Destructuring keys to match schema (therapy, doctor, patient)
     const { therapy, doctor, patient, date, slot } = req.body;
 
-  
-
-    // UPDATED: Validation with new variable names
     if (!therapy || !doctor || !patient || !date || !slot) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
 
-    // Normalize date (force ISO format)
     const normalizedDate = new Date(date);
     if (isNaN(normalizedDate.getTime())) {
       return res
@@ -27,8 +24,28 @@ router.post("/book", async (req, res) => {
     }
     normalizedDate.setHours(0, 0, 0, 0);
 
-    // Doctor slot check
-    // UPDATED: Using 'doctor' which holds the ID
+    // ================== NEW LOGIC: CHECK WORKING DAY ==================
+    // Step 1: Doctor ki details fetch karein
+    const doctorDetails = await User.findById(doctor);
+    if (!doctorDetails || doctorDetails.role !== "doctor") {
+        return res.status(404).json({ success: false, message: "Doctor not found" });
+    }
+
+    // Step 2: Appointment ki date se din ka naam nikalein (e.g., "Mon", "Tue")
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const appointmentDay = daysOfWeek[normalizedDate.getDay()];
+
+    // Step 3: Check karein ki woh din doctor ke workingDays array mein hai ya nahi
+    if (!doctorDetails.workingDays.includes(appointmentDay)) {
+        return res.status(400).json({
+            success: false,
+            message: `Doctor is not available on ${appointmentDay}s. Please choose a different day.`
+        });
+    }
+    // ================== END OF NEW LOGIC ==================
+
+
+    
     const doctorBooked = await Appointment.findOne({
       doctor: doctor,
       date: normalizedDate,
@@ -41,8 +58,7 @@ router.post("/book", async (req, res) => {
       });
     }
 
-    // Patient slot check
-    // UPDATED: Using 'patient' which holds the ID
+    // Patient slot check (existing logic)
     const patientBooked = await Appointment.findOne({
       patient: patient,
       date: normalizedDate,
@@ -55,8 +71,7 @@ router.post("/book", async (req, res) => {
       });
     }
 
-    // Create appointment
-    // UPDATED: Using consistent variable names
+    // Create appointment (existing logic)
     const newAppointment = new Appointment({
       therapy,
       doctor,
@@ -64,11 +79,8 @@ router.post("/book", async (req, res) => {
       date: normalizedDate,
       slot,
     });
-
     await newAppointment.save();
 
-    // Save reference in patient user
-    // UPDATED: Using 'patient' which holds the ID
     await User.findByIdAndUpdate(patient, {
       $push: { appointments: newAppointment._id },
     });
@@ -83,6 +95,10 @@ router.post("/book", async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
+
+
+
 
 // ----------------- GET PATIENT APPOINTMENTS -----------------
 router.get("/patient/:patientId", async (req, res) => {
