@@ -1,6 +1,6 @@
 import React from 'react'
 import './MainPage.css'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { FaStethoscope, FaUserInjured } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -30,9 +30,7 @@ const MainPage = () => {
       <a href="#features" onClick={handleSmoothScroll}>Features</a>
       <a href="#how-it-works" onClick={handleSmoothScroll}>How It Works</a>
       <a href="#testimonials" onClick={handleSmoothScroll}>Testimonials</a>
-      <a className="log-button" href="/login/patient" onClick={handleSmoothScroll}>
-        Login
-      </a>
+   
     </div>
   </nav>
 </header>

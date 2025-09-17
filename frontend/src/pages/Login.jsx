@@ -32,7 +32,7 @@ function Login() {
       if (res.data.success && res.data.user) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         if (res.data.user.role === "doctor") navigate("/doctor-dashboard");
-        else navigate("/patient-dashboard");
+        else navigate("/dashboard/Patient");
       }
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");

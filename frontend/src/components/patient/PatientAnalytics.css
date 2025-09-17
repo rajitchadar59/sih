@@ -1,0 +1,109 @@
+/* --- Base Card Styling (can be in a global CSS file too) --- */
+.card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+.pat-ana{
+  background-color: #f8fafc;
+}
+/* --- Analytics View Layout --- */
+.analytics-view {
+  padding: 2rem;
+  box-sizing: border-box;
+  animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- KPI (Key Performance Indicator) Cards --- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  text-align: center;
+}
+
+.kpi-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #777777;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.kpi-card p {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #4A90E2;
+}
+
+
+/* --- Chart Grid --- */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart-wrapper {
+  height: 400px;
+  padding-bottom: 2rem;
+}
+
+.chart-wrapper h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #4A90E2;
+}
+
+
+/* --- History Table --- */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.history-table th, .history-table td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.history-table th {
+  font-weight: 600;
+  color: #777777;
+}
+
+.history-table tbody tr:hover {
+  background-color: #F4F7F6;
+}
+
+/* --- Status Badges --- */
+.status-badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+
+.status-completed {
+  background-color: #50E3C2; /* Green */
+}
+
+.status-missed {
+  background-color: #E57373; /* Red */
+}
