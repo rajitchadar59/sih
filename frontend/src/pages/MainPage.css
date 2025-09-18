@@ -13,7 +13,7 @@
 
 /* Background image for top section */
 #home {
-  background: url('../assets/yourImage.jpg') no-repeat center center/cover;
+  background: url('../assets/logo.png') no-repeat center center/cover;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -21,6 +21,7 @@
   position: relative;
   color: #fff;
   text-align: center;
+
 }
 
 /* Overlay for better contrast */
@@ -31,7 +32,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.4); /* dark overlay */
+  background:linear-gradient(transparent, white); /* dark overlay */
   z-index: 1;
 }
 
@@ -46,6 +47,7 @@
   top: 0;
   width: 100%;
   z-index: 100;
+
 }
 
 .navbar {
@@ -53,7 +55,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 50px;
-  background: rgba(255, 255, 255, 0.08); /* transparent */
+  background: green; /* transparent */
   backdrop-filter: blur(12px); /* glass effect */
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
